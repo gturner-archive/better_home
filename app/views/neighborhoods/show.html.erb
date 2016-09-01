@@ -20,9 +20,9 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><%= get_commute(@distance, 3.1) %></td>
-                    <td><%= get_commute(@distance, 9.6) %></td>
-                    <td><%= get_commute(@distance, 20) %></td>
+                    <td><%= get_commute(@distance, 3.1).floor %> mins</td>
+                    <td><%= get_commute(@distance, 9.6).floor %> mins</td>
+                    <td><%= get_commute(@distance, 20).floor %> mins</td>
                   </tr>
                 </tbody>
               </table>
@@ -43,38 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <h2>Most Popular Places</h2>
-        <div class="panel-body">
-          <div class="row">
-            <% @yelp_responses.each do |response| %>
-              <div class="col-md-3">
-                <p><%= link_to response.name, response.url %></p>
-              </div>
-            <% end %>
-          </div>
-          <div class="row">
-            <% @yelp_responses.each do |response| %>
-              <div class="col-md-3">
-                <%= link_to(image_tag(response.image_url, class: "img-circle"), response.url) %>
-              </div>
-            <% end %>
-          </div>
-          <div class="row">
-            <% @yelp_responses.each do |response| %>
-              <div class="col-md-3">
-                <%= image_tag(response.rating_img_url) %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      
+    <div class="col-md-6" id="fact-container">
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="list-group">
@@ -87,11 +56,34 @@
         </div>
       </div>
     </div>
+
+  </div>
+  <div class="row">
     <div class="col-md-6">
       <div class="panel panel-default">
+        <h2>Most Popular Places</h2>
+        <div class="panel-body">
+          <div class="row" id="yelp">
+            <% @yelp_responses.each do |response| %>
+              <div class="col-xs-6 col-sm-6 yelp-wrap">
+                <div class="text-center">
+                  <%= link_to response.url, class: "text-center" do %>
+                    <%= response.name %>
+                    <%= image_tag(response.image_url, class: "img-circle img-responsive") %>
+                    <%= image_tag(response.rating_img_url, class: "img-responsive") %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default" id="yelp-panel">
         <h2>Check out the area!</h2>
         <div class="panel-body">
-          <iframe width="485" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/search?q=<%= @neighborhood_name %>%20san%20francisco%20ca%20best%20shops%20and%20food&key=<%= Rails.application.secrets.google_maps_key %>" allowfullscreen></iframe>
+          <iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/search?q=<%= @neighborhood_name %>%20san%20francisco%20ca%20best%20shops%20and%20food&key=<%= Rails.application.secrets.google_maps_key %>" allowfullscreen></iframe>
         </div>
       </div>
     </div>
